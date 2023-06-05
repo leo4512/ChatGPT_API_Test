@@ -1,8 +1,10 @@
 # ChatGPT_API_Test
 
-This testing script tests three major methods of calling ChatGPT through API: OpenAI official package, Axios, and LangChain.
+This a command line app testing three major methods of calling ChatGPT through API: OpenAI official package, Axios, and LangChain. 
 
 ### Sample output
+
+User can set the desired number of test cycles.
 
 ```
 ---- Test results for 2 cycles ----
