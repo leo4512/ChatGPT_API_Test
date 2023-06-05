@@ -165,7 +165,7 @@ const runTest = async (cycles) => {
 
         // Log the results
         console.log();
-        console.log(`Test results for ${cycles} cycles:`)
+        console.log(`---- Test results for ${cycles} cycles ----`)
         console.log();
         console.log("OpenAI package:");
         console.log(`Total requests: ${testResultsOpenAI.totalRequests}`);
@@ -187,6 +187,8 @@ const runTest = async (cycles) => {
         console.log(`Failed requests: ${testResultsLangChain.failedRequests}`);
         console.log(`Total time: ${testResultsLangChain.totalTime}ms`);
         console.log(`Average time per request: ${testResultsLangChain.totalTime / testResultsLangChain.totalRequests}ms`);
+        console.log();
+        console.log("----  End of test ----");
 
     } catch (err) {
         console.error(`Test failed: ${err}`);
