@@ -5,24 +5,28 @@ This testing script tests three major methods of calling ChatGPT through API: Op
 ### Sample output
 
 ```
-Results for OpenAI package:
-Total requests: 100
-Successful requests: 100
+Test results for 5 cycles:
+
+OpenAI package:
+Total requests: 5
+Successful requests: 5
 Failed requests: 0
-Total time: 185694.60354423523ms
-Average time per request: 1856.9460354423522ms
-Results for Axios:
-Total requests: 100
-Successful requests: 99
-Failed requests: 1
-Total time: 208740.52425003052ms
-Average time per request: 2087.405242500305ms
-Results for LangChain:
-Total requests: 100
-Successful requests: 100
+Total time: 10288.902832984924ms
+Average time per request: 2057.780566596985ms
+
+Axios:
+Total requests: 5
+Successful requests: 5
 Failed requests: 0
-Total time: 205995.5920062065ms
-Average time per request: 2059.955920062065ms
+Total time: 78026.62633514404ms
+Average time per request: 15605.32526702881ms
+
+LangChain:
+Total requests: 5
+Successful requests: 5
+Failed requests: 0
+Total time: 20737.353375196457ms
+Average time per request: 4147.470675039292ms
 ```
 
 ## Get Started
@@ -34,6 +38,8 @@ npm i
 ```
 
 ### Add .env at the root
+
+Content of .env file:
 
 ```
 OPENAI_API_KEY=<your openai api key>
