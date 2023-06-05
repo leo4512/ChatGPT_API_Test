@@ -5,28 +5,30 @@ This testing script tests three major methods of calling ChatGPT through API: Op
 ### Sample output
 
 ```
-Test results for 5 cycles:
+---- Test results for 2 cycles ----
 
 OpenAI package:
-Total requests: 5
-Successful requests: 5
+Total requests: 2
+Successful requests: 2
 Failed requests: 0
-Total time: 10288.902832984924ms
-Average time per request: 2057.780566596985ms
+Total time: 4360.204166889191ms
+Average time per request: 2180.1020834445953ms
 
 Axios:
-Total requests: 5
-Successful requests: 5
+Total requests: 2
+Successful requests: 2
 Failed requests: 0
-Total time: 78026.62633514404ms
-Average time per request: 15605.32526702881ms
+Total time: 5233.1582090854645ms
+Average time per request: 2616.5791045427322ms
 
 LangChain:
-Total requests: 5
-Successful requests: 5
+Total requests: 2
+Successful requests: 2
 Failed requests: 0
-Total time: 20737.353375196457ms
-Average time per request: 4147.470675039292ms
+Total time: 6186.429499864578ms
+Average time per request: 3093.214749932289ms
+
+----  End of test ----
 ```
 
 ## Get Started
