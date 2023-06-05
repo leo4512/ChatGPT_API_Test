@@ -148,7 +148,7 @@ const runTest = async (cycles) => {
         // Initialize a throbber
         const throbber = ora({
             text: 'Processing...',
-            spinner: 'dots', // choose your preferred spinner style
+            spinner: 'dots',
         }).start();
 
         // Call each method the number of times specified by the user
