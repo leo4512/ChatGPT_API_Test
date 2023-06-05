@@ -3,6 +3,8 @@ import { config } from 'dotenv';
 import axios from 'axios';
 import { performance } from 'perf_hooks';
 import { OpenAI } from "langchain/llms/openai";
+import ora from 'ora';
+import readline from 'readline';
 
 // Load environment configuration
 config();
@@ -29,7 +31,7 @@ const model = new OpenAI({
 // Define the test data
 const testData = {
     model: "gpt-3.5-turbo",
-    messages: [{"role": "system", "content": "Hello, how can I assist you today?"}, {"role": "user", "content": "Tell me a joke"}],
+    messages: [{ "role": "system", "content": "Hello, how can I assist you today?" }, { "role": "user", "content": "Tell me a joke" }],
     temperature: 0,
     max_tokens: 1000,
     top_p: 0.95,
@@ -138,39 +140,84 @@ const generateChatCompletionLangChain = async () => {
     testResultsLangChain.totalTime += duration;
 }
 
+
+
 // Run the tests
-(async () => {
+const runTest = async (cycles) => {
     try {
-        // Call each method 100 times
-        for (let i = 0; i < 100; i++) {
+        // Initialize a throbber
+        const throbber = ora({
+            text: 'Processing...',
+            spinner: 'dots', // choose your preferred spinner style
+        }).start();
+
+        // Call each method the number of times specified by the user
+        for (let i = 0; i < cycles; i++) {
+            // Update the throbber's text
+            throbber.text = `Processing request ${i + 1} of ${cycles}...`;
             await generateChatCompletionOpenAI(testData);
             await generateChatCompletionAxios(testData);
             await generateChatCompletionLangChain();
         }
 
+        // Stop the throbber when the processing is finished
+        throbber.stop();
+
         // Log the results
-        console.log("Results for OpenAI package:");
+        console.log();
+        console.log(`Test results for ${cycles} cycles:`)
+        console.log();
+        console.log("OpenAI package:");
         console.log(`Total requests: ${testResultsOpenAI.totalRequests}`);
         console.log(`Successful requests: ${testResultsOpenAI.successfulRequests}`);
         console.log(`Failed requests: ${testResultsOpenAI.failedRequests}`);
         console.log(`Total time: ${testResultsOpenAI.totalTime}ms`);
         console.log(`Average time per request: ${testResultsOpenAI.totalTime / testResultsOpenAI.totalRequests}ms`);
-
-        console.log("Results for Axios:");
+        console.log();
+        console.log("Axios:");
         console.log(`Total requests: ${testResultsAxios.totalRequests}`);
         console.log(`Successful requests: ${testResultsAxios.successfulRequests}`);
         console.log(`Failed requests: ${testResultsAxios.failedRequests}`);
         console.log(`Total time: ${testResultsAxios.totalTime}ms`);
         console.log(`Average time per request: ${testResultsAxios.totalTime / testResultsAxios.totalRequests}ms`);
-
-        console.log("Results for LangChain:");
+        console.log();
+        console.log("LangChain:");
         console.log(`Total requests: ${testResultsLangChain.totalRequests}`);
         console.log(`Successful requests: ${testResultsLangChain.successfulRequests}`);
         console.log(`Failed requests: ${testResultsLangChain.failedRequests}`);
         console.log(`Total time: ${testResultsLangChain.totalTime}ms`);
         console.log(`Average time per request: ${testResultsLangChain.totalTime / testResultsLangChain.totalRequests}ms`);
+
     } catch (err) {
         console.error(`Test failed: ${err}`);
     }
-})();
+};
 
+// Initialize readline interface
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+const getUserInput = () => {
+    return new Promise((resolve, reject) => {
+        rl.question('How many API call cycles? (Please enter a number) ', (answer) => {
+            let cycles = Number(answer);
+
+            if (isNaN(cycles)) {
+                console.error("Invalid input, please enter a number");
+                resolve(getUserInput());  // Call the function again if input is not a number
+            } else {
+                rl.close();
+                return resolve(cycles); // Resolve the promise with the number of cycles when we get a valid input
+            }
+        });
+    });
+}
+
+const startTest = async () => {
+    let cycles = await getUserInput();
+    await runTest(cycles);
+}
+
+startTest();
